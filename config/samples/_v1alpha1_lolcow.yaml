@@ -1,0 +1,6 @@
+apiVersion: my.domain/v1alpha1
+kind: Lolcow
+metadata:
+  name: lolcow-sample
+spec:
+  greeting: Hello, this is a better message from the lolcow.

@@ -1,0 +1,20 @@
+# permissions for end users to view lolcows.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: lolcow-viewer-role
+rules:
+- apiGroups:
+  - my.domain
+  resources:
+  - lolcows
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - my.domain
+  resources:
+  - lolcows/status
+  verbs:
+  - get

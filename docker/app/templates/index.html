@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Lolcow is now Nyan Cat!</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo&display=swap" rel="stylesheet"> 
+
+<style>
+body {
+  background: #036;
+  overflow: hidden;
+  margin: 0;
+}
+
+.cat, .poptart, .head, .feet, .tail, .rainbow, .sprite, .stars li, .stars li i {
+  position: absolute;
+  background-repeat: no-repeat;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-timing-function: step-end;
+}
+
+ul, li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cat {
+  top: 50%;
+  left: 50%;
+  margin-left: -100px;
+  margin-top: -100px;
+  animation-name: catCycle;
+  animation-duration: 0.5s;
+}
+
+@keyframes catCycle {
+  0%, 100% {
+    margin-top: -100px;
+  }
+  33.3% {
+    margin-top: -90px;
+  }
+}
+.poptart {
+  left: 0;
+  top: 0;
+  width: 210px;
+  height: 180px;
+  background-image: linear-gradient(to right, #ff3399 0%, #ff3399 100%), linear-gradient(to right, #ff3399 0%, #ff3399 100%), linear-gradient(to right, #ff3399 0%, #ff3399 100%), linear-gradient(to right, #ff3399 0%, #ff3399 100%), linear-gradient(to right, #ff3399 0%, #ff3399 100%), linear-gradient(to right, #ff3399 0%, #ff3399 100%), linear-gradient(to right, #ff3399 0%, #ff3399 100%), linear-gradient(to right, #ff3399 0%, #ff3399 100%), linear-gradient(to right, #ff3399 0%, #ff3399 100%), linear-gradient(to right, #ff3399 0%, #ff3399 100%), linear-gradient(to right, #ff3399 0%, #ff3399 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 9.52381%, #ff99ff 9.52381%, #ff99ff 90.47619%, rgba(0, 0, 0, 0) 90.47619%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 14.28571%, #ff99ff 14.28571%, #ff99ff 85.71429%, rgba(0, 0, 0, 0) 85.71429%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 19.04762%, #ff99ff 19.04762%, #ff99ff 80.95238%, rgba(0, 0, 0, 0) 80.95238%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, #000000 0%, #000000 4.7619%, #ffcc99 4.7619%, #ffcc99 95.2381%, #000000 95.2381%, #000000 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 4.7619%, #000000 4.7619%, #000000 9.52381%, #ffcc99 9.52381%, #ffcc99 90.47619%, #000000 90.47619%, #000000 95.2381%, rgba(0, 0, 0, 0) 90.47619%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 9.52381%, #000000 9.52381%, #000000 90.47619%, rgba(0, 0, 0, 0) 90.47619%, rgba(0, 0, 0, 0) 100%);
+  background-position: 90px 30px, 120px 30px, 40px 40px, 160px 50px, 80px 70px, 50px 90px, 90px 100px, 30px 110px, 70px 130px, 40px 140px, 110px 140px, 0 40px, 0 30px, 0 20px, 0 20px, 0 10px, 0 0;
+  background-size: 10px 10px, 10px 10px, 10px 10px, 10px 10px, 10px 10px, 10px 10px, 10px 10px, 10px 10px, 10px 10px, 10px 10px, 10px 10px, 100% 100px, 100% 120px, 100% 140px, 100% 140px, 100% 160px, 100% 100%;
+}
+
+.wisdom {
+  font-size: 20px;
+  font-family: 'Heebo', sans-serif;
+  width: 260px;
+  height: 260px;
+  color: white;
+  padding-left: 350px;
+}
+
+.head {
+  left: 100px;
+  top: 50px;
+  width: 160px;
+  height: 130px;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 12.5%, #000000 12.5%, #000000 25%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 75%, #000000 75%, #000000 87.5%, rgba(0, 0, 0, 0) 87.5%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 6.25%, #000000 6.25%, #000000 12.5%, #999999 12.5%, #999999 25%, #000000 25%, #000000 31.25%, rgba(0, 0, 0, 0) 31.25%, rgba(0, 0, 0, 0) 68.75%, #000000 68.75%, #000000 75%, #999999 75%, #999999 87.5%, #000000 87.5%, #000000 93.75%, rgba(0, 0, 0, 0) 93.75%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 6.25%, #000000 6.25%, #000000 12.5%, #999999 12.5%, #999999 31.25%, #000000 31.25%, #000000 37.5%, rgba(0, 0, 0, 0) 37.5%, rgba(0, 0, 0, 0) 62.5%, #000000 62.5%, #000000 68.75%, #999999 68.75%, #999999 87.5%, #000000 87.5%, #000000 93.75%, rgba(0, 0, 0, 0) 93.75%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 6.25%, #000000 6.25%, #000000 12.5%, #999999 12.5%, #999999 37.5%, #000000 37.5%, #000000 62.5%, #999999 62.5%, #999999 87.5%, #000000 87.5%, #000000 93.75%, rgba(0, 0, 0, 0) 93.75%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 6.25%, #000000 6.25%, #000000 12.5%, #999999 12.5%, #999999 87.5%, #000000 87.5%, #000000 93.75%, rgba(0, 0, 0, 0) 93.75%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, #000000 0%, #000000 6.25%, #999999 6.25%, #999999 93.75%, #000000 93.75%, #000000 100%), linear-gradient(to right, #000000 0%, #000000 6.25%, #999999 6.25%, #999999 25%, #ffffff 25%, #ffffff 31.25%, #000000 31.25%, #000000 37.5%, #999999 37.5%, #999999 68.75%, #ffffff 68.75%, #ffffff 75%, #000000 75%, #000000 81.25%, #999999 81.25%, #999999 93.75%, #000000 93.75%, #000000 100%), linear-gradient(to right, #000000 0%, #000000 6.25%, #999999 6.25%, #999999 25%, #000000 25%, #000000 37.5%, #999999 37.5%, #999999 56.25%, #000000 56.25%, #000000 62.5%, #999999 62.5%, #999999 68.75%, #000000 68.75%, #000000 81.25%, #999999 81.25%, #999999 93.75%, #000000 93.75%, #000000 100%), linear-gradient(to right, #000000 0%, #000000 6.25%, #999999 6.25%, #999999 12.5%, #ff9999 12.5%, #ff9999 25%, #999999 25%, #999999 81.25%, #ff9999 81.25%, #ff9999 93.75%, #000000 93.75%, #000000 100%), linear-gradient(to right, #000000 0%, #000000 6.25%, #999999 6.25%, #999999 12.5%, #ff9999 12.5%, #ff9999 25%, #999999 25%, #999999 31.25%, #000000 31.25%, #000000 37.5%, #999999 37.5%, #999999 50%, #000000 50%, #000000 56.25%, #999999 56.25%, #999999 68.75%, #000000 68.75%, #000000 75%, #999999 75%, #999999 81.25%, #ff9999 81.25%, #ff9999 93.75%, #000000 93.75%, #000000 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 6.25%, #000000 6.25%, #000000 12.5%, #999999 12.5%, #999999 31.25%, #000000 31.25%, #000000 75%, #999999 75%, #999999 87.5%, #000000 87.5%, #000000 93.75%, rgba(0, 0, 0, 0) 93.75%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 12.5%, #000000 12.5%, #000000 18.75%, #999999 18.75%, #999999 81.25%, #000000 81.25%, #000000 87.5%, rgba(0, 0, 0, 0) 87.5%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 18.75%, #000000 18.75%, #000000 81.25%, rgba(0, 0, 0, 0) 81.25%, rgba(0, 0, 0, 0) 100%);
+  background-position: 0 0, 0 10px, 0 20px, 0 30px, 0 40px, 0 50px, 0 60px, 0 70px, 0 80px, 0 90px, 0 100px, 0 110px, 0 120px;
+  background-size: 100% 10px;
+  background-repeat: no-repeat;
+  animation-name: headCycle;
+  animation-duration: 0.5s;
+}
+
+@keyframes headCycle {
+  0%, 100% {
+    margin-left: 0;
+    margin-top: 0;
+  }
+  16.7% {
+    margin-left: 10px;
+    margin-top: 0;
+  }
+  66.7% {
+    margin-left: 0;
+    margin-top: 0;
+  }
+  83.3% {
+    margin-left: 0;
+    margin-top: -10px;
+  }
+}
+.feet {
+  width: 240px;
+  height: 50px;
+  overflow: hidden;
+  left: -20px;
+  top: 150px;
+  animation-name: feetCycle;
+  animation-duration: 0.5s;
+}
+
+.feet .sprite {
+  top: 0;
+  width: 240px;
+  height: 150px;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 8.33333%, #000000 8.33333%, #000000 16.66667%, #999999 16.66667%, #999999 20.83333%, rgba(0, 0, 0, 0) 20.83333%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 4.16667%, #000000 4.16667%, #000000 12.5%, #999999 12.5%, #999999 25%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 79.16667%, #999999 79.16667%, #999999 91.66667%, #000000 91.66667%, #000000 95.83333%, rgba(0, 0, 0, 0) 95.83333%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, #000000 0%, #000000 4.16667%, #999999 4.16667%, #999999 16.66667%, #000000 16.66667%, #000000 25%, #999999 25%, #999999 41.66667%, #000000 41.66667%, #000000 45.83333%, rgba(0, 0, 0, 0) 45.83333%, rgba(0, 0, 0, 0) 58.33333%, #000000 58.33333%, #000000 62.5%, #999999 62.5%, #999999 75%, #000000 75%, #000000 83.33333%, #999999 83.33333%, #999999 95.83333%, #000000 95.83333%, #000000 100%), linear-gradient(to right, #000000 0%, #000000 4.16667%, #999999 4.16667%, #999999 12.5%, #000000 12.5%, #000000 20.83333%, rgba(0, 0, 0, 0) 20.83333%, rgba(0, 0, 0, 0) 25%, #000000 25%, #000000 29.16667%, #999999 29.16667%, #999999 37.5%, #000000 37.5%, #000000 41.66667%, rgba(0, 0, 0, 0) 41.66667%, rgba(0, 0, 0, 0) 62.5%, #000000 62.5%, #000000 66.66667%, #999999 66.66667%, #999999 75%, #000000 75%, #000000 79.16667%, rgba(0, 0, 0, 0) 79.16667%, rgba(0, 0, 0, 0) 83.33333%, #000000 83.33333%, #000000 87.5%, #999999 87.5%, #999999 95.83333%, #000000 95.83333%, #000000 100%), linear-gradient(to right, #000000 0%, #000000 16.66667%, rgba(0, 0, 0, 0) 16.66667%, rgba(0, 0, 0, 0) 25%, #000000 25%, #000000 37.5%, rgba(0, 0, 0, 0) 33.33333%, rgba(0, 0, 0, 0) 66.66667%, #000000 66.66667%, #000000 79.16667%, rgba(0, 0, 0, 0) 79.16667%, rgba(0, 0, 0, 0) 87.5%, #000000 87.5%, #000000 95.83333%, rgba(0, 0, 0, 0) 95.83333%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 8.33333%, #000000 8.33333%, #000000 16.66667%, #999999 16.66667%, #999999 20.83333%, rgba(0, 0, 0, 0) 20.83333%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 4.16667%, #000000 4.16667%, #000000 8.33333%, #999999 8.33333%, #999999 25%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 79.16667%, #999999 79.16667%, #999999 91.66667%, #000000 91.66667%, #000000 95.83333%, rgba(0, 0, 0, 0) 95.83333%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, #000000 0%, #000000 4.16667%, #999999 4.16667%, #999999 16.66667%, #000000 16.66667%, #000000 25%, #999999 25%, #999999 37.5%, #000000 37.5%, #000000 41.66667%, rgba(0, 0, 0, 0) 41.66667%, rgba(0, 0, 0, 0) 58.33333%, #000000 58.33333%, #000000 62.5%, #999999 62.5%, #999999 75%, #000000 75%, #000000 83.33333%, #999999 83.33333%, #999999 95.83333%, #000000 95.83333%, #000000 100%), linear-gradient(to right, #000000 0%, #000000 4.16667%, #999999 4.16667%, #999999 12.5%, #000000 12.5%, #000000 16.66667%, rgba(0, 0, 0, 0) 16.66667%, rgba(0, 0, 0, 0) 20.83333%, #000000 20.83333%, #000000 25%, #999999 25%, #999999 33.33333%, #000000 33.33333%, #000000 37.5%, rgba(0, 0, 0, 0) 37.5%, rgba(0, 0, 0, 0) 62.5%, #000000 62.5%, #000000 66.66667%, #999999 66.66667%, #999999 75%, #000000 75%, #000000 79.16667%, rgba(0, 0, 0, 0) 79.16667%, rgba(0, 0, 0, 0) 83.33333%, #000000 83.33333%, #000000 87.5%, #999999 87.5%, #999999 95.83333%, #000000 95.83333%, #000000 100%), linear-gradient(to right, #000000 0%, #000000 12.5%, rgba(0, 0, 0, 0) 12.5%, rgba(0, 0, 0, 0) 25%, #000000 25%, #000000 37.5%, rgba(0, 0, 0, 0) 37.5%, rgba(0, 0, 0, 0) 66.66667%, #000000 66.66667%, #000000 79.16667%, rgba(0, 0, 0, 0) 79.16667%, rgba(0, 0, 0, 0) 87.5%, #000000 87.5%, #000000 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 8.33333%, #000000 8.33333%, #000000 16.66667%, #999999 16.66667%, #999999 20.83333%, rgba(0, 0, 0, 0) 20.83333%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 4.16667%, #000000 4.16667%, #000000 8.33333%, #999999 8.33333%, #999999 25%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 79.16667%, #999999 79.16667%, #999999 91.66667%, #000000 91.66667%, #000000 95.83333%, rgba(0, 0, 0, 0) 95.83333%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, #000000 0%, #000000 4.16667%, #999999 4.16667%, #999999 16.66667%, #000000 16.66667%, #000000 25%, #999999 25%, #999999 37.5%, #000000 37.5%, #000000 41.66667%, rgba(0, 0, 0, 0) 41.66667%, rgba(0, 0, 0, 0) 58.33333%, #000000 58.33333%, #000000 62.5%, #999999 62.5%, #999999 75%, #000000 75%, #000000 83.33333%, #999999 83.33333%, #999999 95.83333%, #000000 95.83333%, #000000 100%), linear-gradient(to right, #000000 0%, #000000 4.16667%, #999999 4.16667%, #999999 12.5%, #000000 12.5%, #000000 16.66667%, rgba(0, 0, 0, 0) 16.66667%, rgba(0, 0, 0, 0) 20.83333%, #000000 20.83333%, #000000 25%, #999999 25%, #999999 33.33333%, #000000 33.33333%, #000000 37.5%, rgba(0, 0, 0, 0) 37.5%, rgba(0, 0, 0, 0) 62.5%, #000000 62.5%, #000000 66.66667%, #999999 66.66667%, #999999 75%, #000000 75%, #000000 79.16667%, rgba(0, 0, 0, 0) 79.16667%, rgba(0, 0, 0, 0) 83.33333%, #000000 83.33333%, #000000 87.5%, #999999 87.5%, #999999 95.83333%, #000000 95.83333%, #000000 100%), linear-gradient(to right, #000000 0%, #000000 12.5%, rgba(0, 0, 0, 0) 12.5%, rgba(0, 0, 0, 0) 20.83333%, #000000 20.83333%, #000000 33.33333%, rgba(0, 0, 0, 0) 33.33333%, rgba(0, 0, 0, 0) 62.5%, #000000 62.5%, #000000 75%, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0) 87.5%, #000000 87.5%, #000000 100%);
+  background-position: 0 0, 0 10px, 0 20px, 0 30px, 0 40px, 0 50px, 0 60px, 0 70px, 0 80px, 0 90px, 0 100px, 0 110px, 0 120px, 0 130px, 0 140px;
+  background-size: 100% 10px;
+  background-repeat: no-repeat;
+  animation-name: feetSpriteCycle;
+  animation-duration: 0.5s;
+}
+
+@keyframes feetCycle {
+  0%, 100% {
+    margin-left: 0;
+  }
+  16.7% {
+    margin-left: 10px;
+  }
+  33.3% {
+    margin-left: 20px;
+  }
+  50% {
+    margin-left: 10px;
+  }
+  66.7% {
+    margin-left: -10px;
+  }
+}
+@keyframes feetSpriteCycle {
+  0%, 100% {
+    top: 0;
+  }
+  16.7% {
+    top: -50px;
+  }
+  83.3% {
+    top: -100px;
+  }
+}
+.tail {
+  width: 70px;
+  height: 70px;
+  overflow: hidden;
+  left: -70px;
+  top: 70px;
+  animation-name: tailCycle;
+  animation-duration: 0.5s;
+}
+
+.tail .sprite {
+  width: 70px;
+  height: 350px;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 14.28571%, #000000 14.28571%, #000000 71.42857%, rgba(0, 0, 0, 0) 71.42857%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 14.28571%, #000000 14.28571%, #000000 28.57143%, #999999 28.57143%, #999999 57.14286%, #000000 57.14286%, #000000 85.71429%, rgba(0, 0, 0, 0) 85.71429%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 14.28571%, #000000 14.28571%, #000000 42.85714%, #999999 42.85714%, #999999 71.42857%, #000000 71.42857%, #000000 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 28.57143%, #000000 28.57143%, #000000 57.14286%, #999999 57.14286%, #999999 85.71429%, #000000 85.71429%, #000000 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 42.85714%, #000000 42.85714%, #000000 71.42857%, #999999 71.42857%, #999999 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 57.14286%, #000000 57.14286%, #000000 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 85.71429%, #000000 85.71429%, #000000 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 28.57143%, #000000 28.57143%, #000000 57.14286%, rgba(0, 0, 0, 0) 57.14286%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 14.28571%, #000000 14.28571%, #000000 28.57143%, #999999 28.57143%, #999999 57.14286%, #000000 57.14286%, #000000 71.42857%, rgba(0, 0, 0, 0) 71.42857%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 14.28571%, #000000 14.28571%, #000000 28.57143%, #999999 28.57143%, #999999 57.14286%, #000000 57.14286%, #000000 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 28.57143%, #000000 28.57143%, #000000 42.85714%, #999999 42.85714%, #999999 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 42.85714%, #000000 42.85714%, #000000 71.42857%, #999999 71.42857%, #999999 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 71.42857%, #000000 71.42857%, #000000 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 85.71429%, #000000 85.71429%, #000000 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 42.85714%, #000000 42.85714%, #000000 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 14.28571%, #000000 14.28571%, #000000 42.85714%, #999999 42.85714%, #999999 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 14.28571%, #000000 14.28571%, #000000 28.57143%, #999999 28.57143%, #999999 71.42857%, #000000 71.42857%, #000000 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 28.57143%, #000000 28.57143%, #000000 85.71429%, rgba(0, 0, 0, 0) 85.71429%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 71.42857%, #000000 71.42857%, #000000 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 42.85714%, #000000 42.85714%, #000000 71.42857%, #999999 71.42857%, #999999 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 28.57143%, #000000 28.57143%, #000000 42.85714%, #999999 42.85714%, #999999 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 14.28571%, #000000 14.28571%, #000000 28.57143%, #999999 28.57143%, #999999 57.14286%, #000000 57.14286%, #000000 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 14.28571%, #000000 14.28571%, #000000 28.57143%, #999999 28.57143%, #999999 57.14286%, #000000 57.14286%, #000000 71.42857%, rgba(0, 0, 0, 0) 71.42857%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 28.57143%, #000000 28.57143%, #000000 57.14286%, rgba(0, 0, 0, 0) 57.14286%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 14.28571%, #000000 14.28571%, #000000 71.42857%, rgba(0, 0, 0, 0) 71.42857%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, #000000 0%, #000000 14.28571%, #999999 14.28571%, #999999 57.14286%, #000000 57.14286%, #000000 100%), linear-gradient(to right, #000000 0%, #000000 28.57143%, #999999 28.57143%, #999999 85.71429%, #000000 85.71429%, #000000 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 28.57143%, #000000 28.57143%, #000000 85.71429%, #999999 85.71429%, #999999 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 71.42857%, #000000 71.42857%, #000000 100%);
+  background-position: 0 0, 0 10px, 0 20px, 0 30px, 0 40px, 0 50px, 0 60px, 0 70px, 0 80px, 0 90px, 0 100px, 0 110px, 0 120px, 0 130px, 0 140px, 0 150px, 0 160px, 0 170px, 0 180px, 0 190px, 0 200px, 0 210px, 0 220px, 0 230px, 0 240px, 0 250px, 0 260px, 0 270px, 0 280px, 0 290px, 0 300px, 0 310px, 0 320px, 0 330px, 0 340px;
+  background-size: 100% 10px;
+  background-repeat: no-repeat;
+  animation-name: tailSpriteCycle;
+  animation-duration: 0.5s;
+}
+
+@keyframes tailCycle {
+  0%, 100% {
+    margin-top: 0;
+  }
+  33.3% {
+    margin-top: 10px;
+  }
+  50% {
+    margin-top: 20px;
+  }
+  66.7% {
+    margin-top: -10px;
+  }
+}
+@keyframes tailSpriteCycle {
+  0%, 83.3% {
+    margin-top: 0;
+  }
+  16.7% {
+    margin-top: -70px;
+  }
+  33.3% {
+    margin-top: -140px;
+  }
+  50% {
+    margin-top: -210px;
+  }
+  66.7% {
+    margin-top: -280px;
+  }
+}
+.rainbow {
+  left: 0;
+  right: 50%;
+  top: 50%;
+  margin-top: -90px;
+  height: 190px;
+  overflow: hidden;
+}
+
+.rainbow .sprite {
+  left: 0;
+  right: 80px;
+  top: 0;
+  bottom: 0;
+  background-image: linear-gradient(to right, #ff0000 0%, #ff0000 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 50%, #ff0000 50%, #ff0000 100%), linear-gradient(to right, #ff9900 0%, #ff9900 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 50%, #ff9900 50%, #ff9900 100%), linear-gradient(to right, #ffff00 0%, #ffff00 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 50%, #ffff00 50%, #ffff00 100%), linear-gradient(to right, #33ff00 0%, #33ff00 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 50%, #33ff00 50%, #33ff00 100%), linear-gradient(to right, #0099ff 0%, #0099ff 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 50%, #0099ff 50%, #0099ff 100%), linear-gradient(to right, #6633ff 0%, #6633ff 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%), linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 50%, #6633ff 50%, #6633ff 100%);
+  background-position: 0 0, 0 10px, 0 30px, 0 40px, 0 60px, 0 70px, 0 90px, 0 100px, 0 120px, 0 130px, 0 150px, 0 160px;
+  background-size: 160px 30px;
+  background-repeat: repeat-x;
+  animation-name: rainbowCycle;
+  animation-duration: 1s;
+}
+
+@keyframes rainbowCycle {
+  0%, 33.3%, 66.7%, 100% {
+    left: 0;
+  }
+  16.7%, 50%, 83.3% {
+    left: -90px;
+  }
+}
+/* this prevents the rainbow from peeking out from under the cat's back foot. */
+.rainbow .sprite:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 15px;
+  height: 15px;
+  background: #036;
+}
+
+.stars li {
+  width: 470px;
+  height: 70px;
+  overflow: hidden;
+  margin-left: -40px;
+}
+
+.stars li i {
+  display: block;
+  width: 470px;
+  height: 490px;
+  top: -420px;
+  background-image: linear-gradient(to right, #ffffff 0%, #ffffff 100%), linear-gradient(to right, #ffffff 0%, #ffffff 100%), linear-gradient(to right, #ffffff 0%, #ffffff 100%), linear-gradient(to right, #ffffff 0%, #ffffff 100%), linear-gradient(to right, #ffffff 0%, #ffffff 100%), linear-gradient(to right, #ffffff 0%, #ffffff 100%), linear-gradient(to right, #ffffff 0%, #ffffff 100%), linear-gradient(to right, #ffffff 0%, #ffffff 100%), linear-gradient(to right, #ffffff 0%, #ffffff 100%), linear-gradient(to right, #ffffff 0%, #ffffff 100%), linear-gradient(to right, #ffffff 0%, #ffffff 100%), linear-gradient(to right, #ffffff 0%, #ffffff 100%), linear-gradient(to right, #ffffff 0%, #ffffff 100%), linear-gradient(to right, #ffffff 0%, #ffffff 100%), linear-gradient(to right, #ffffff 0%, #ffffff 100%), linear-gradient(to right, #ffffff 0%, #ffffff 100%), linear-gradient(to right, #ffffff 0%, #ffffff 100%), linear-gradient(to right, #ffffff 0%, #ffffff 100%), linear-gradient(to right, #ffffff 0%, #ffffff 100%), linear-gradient(to right, #ffffff 0%, #ffffff 100%), linear-gradient(to right, #ffffff 0%, #ffffff 100%), linear-gradient(to right, #ffffff 0%, #ffffff 100%), linear-gradient(to right, #ffffff 0%, #ffffff 100%), linear-gradient(to right, #ffffff 0%, #ffffff 100%), linear-gradient(to right, #ffffff 0%, #ffffff 100%), linear-gradient(to right, #ffffff 0%, #ffffff 100%);
+  background-position: 430px 30px, 350px 90px, 340px 100px, 360px 100px, 350px 110px, 270px 150px, 250px 170px, 280px 170px, 270px 180px, 190px 210px, 160px 240px, 190px 240px, 210px 240px, 190px 260px, 110px 280px, 90px 290px, 130px 290px, 80px 310px, 140px 310px, 90px 330px, 130px 330px, 110px 340px, 30px 350px, 0 380px, 60px 380px, 30px 410px;
+  background-size: 10px 10px, 10px 10px, 10px 10px, 10px 10px, 10px 10px, 10px 20px, 20px 10px, 20px 10px, 10px 20px, 10px 20px, 20px 10px, 10px 10px, 20px 10px, 10px 20px, 10px 10px, 10px 10px, 10px 10px, 10px 10px, 10px 10px, 10px 10px, 10px 10px, 10px 10px, 10px 10px, 10px 10px, 10px 10px, 10px 10px;
+  background-repeat: no-repeat;
+  animation-name: starSpriteCycle;
+  animation-duration: 1s;
+}
+
+@keyframes starSpriteCycle {
+  0%, 100% {
+    top: -420px;
+  }
+  50% {
+    top: 0;
+  }
+  58.3% {
+    top: -70px;
+  }
+  66.7% {
+    top: -140px;
+  }
+  75% {
+    top: -210px;
+  }
+  83.3% {
+    top: -280px;
+  }
+  91.7% {
+    top: -350px;
+  }
+}
+.stars li:nth-child(1) {
+  left: 66%;
+  top: 80%;
+}
+.stars li:nth-child(2) {
+  left: 70%;
+  top: 54%;
+}
+.stars li:nth-child(2) i {
+  animation-delay: 0.08333s;
+}
+.stars li:nth-child(3) {
+  left: 4%;
+  top: 31%;
+}
+.stars li:nth-child(3) i {
+  animation-delay: 0.16667s;
+}
+.stars li:nth-child(4) {
+  left: 49%;
+  top: 12%;
+}
+.stars li:nth-child(4) i {
+  animation-delay: 0.25s;
+}
+.stars li:nth-child(5) {
+  left: 35%;
+  top: 30%;
+}
+.stars li:nth-child(5) i {
+  animation-delay: 0.33333s;
+}
+.stars li:nth-child(6) {
+  left: 48%;
+  top: 29%;
+}
+.stars li:nth-child(6) i {
+  animation-delay: 0.41667s;
+}
+.stars li:nth-child(7) {
+  left: 22%;
+  top: 70%;
+}
+.stars li:nth-child(7) i {
+  animation-delay: 0.66667s;
+}
+.stars li:nth-child(8) {
+  left: 56%;
+  top: 67%;
+}
+.stars li:nth-child(8) i {
+  animation-delay: 0.58333s;
+}
+.stars li:nth-child(9) {
+  left: 49%;
+  top: 12%;
+}
+.stars li:nth-child(9) i {
+  animation-delay: 0.66667s;
+}
+.stars li:nth-child(10) {
+  left: 9%;
+  top: 92%;
+}
+.stars li:nth-child(10) i {
+  animation-delay: 0.75s;
+}
+.stars li:nth-child(11) {
+  left: 44%;
+  top: 20%;
+}
+.stars li:nth-child(11) i {
+  animation-delay: 0.83333s;
+}
+.stars li:nth-child(12) {
+  left: 6%;
+  top: 19%;
+}
+.stars li:nth-child(12) i {
+  animation-delay: 0.91667s;
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+
+</head>
+<body>
+<div class="rainbow"><div class="sprite"></div></div>
+<ul class="stars">
+  <li><i></i><li><i></i><li><i></i><li><i></i>
+  <li><i></i><li><i></i><li><i></i><li><i></i>
+  <li><i></i><li><i></i><li><i></i><li><i></i>
+</ul>
+<div class="cat">
+  <div class="tail"><div class="sprite"></div></div>
+  <div class="feet"><div class="sprite"></div></div>
+  <div class="poptart"></div>
+  <div class="head"></div>
+  <div class="wisdom">{{ wisdom }}</div>
+</div>
+  
+</body>
+</html>

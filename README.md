@@ -12,6 +12,30 @@ for a controller. This means that:
 
  - I have a recent version of Go installed (1.18.1)
  - I also have minikube installed
+
+## Building Operator Container
+
+**note** you shouldn't need to do this as it will pull from GitHub packages, but if you want to locally test, this
+is how you do it!
+
+### 1. Build the Container
+
+```bash
+$ docker build -f docker/Dockerfile -t ghcr.io/vsoch/lolcow-operator .
+```
+
+And then you can run it without a statement (and we will use the fortune command to get one) or with a custom statement.
+
+```bash
+$ docker run -it ghcr.io/vsoch/lolcow-operator  "Oh my gosh, I am a cow in a container!"
+$ docker run -it ghcr.io/vsoch/lolcow-operator  
+```
+
+![img/lolcow-example.png](img/lolcow-example.png)
+
+This will be the container we deploy to our operator, with entrypoint modified with our greeting.
+ 
+**todo** vsoch is adding this now as an automated build.
  
 ## Making the operator
 

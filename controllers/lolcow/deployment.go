@@ -89,7 +89,7 @@ func (r *LolcowReconciler) backendDeployment(v *api.Lolcow) *appsv1.Deployment {
 				},
 				Spec: corev1.PodSpec{
 					Containers: []corev1.Container{{
-						Image:           "paulbouwer/hello-kubernetes:1.10",
+						Image:           "ghcr.io/vsoch/lolcow-operator:latest",
 						ImagePullPolicy: corev1.PullAlways,
 						Name:            "lolcow-pod",
 						Ports: []corev1.ContainerPort{{

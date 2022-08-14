@@ -4,6 +4,7 @@ on:
 
   # Allow manual trigger of a build
   workflow_dispatch:
+  pull_request: []
 
   # On push to main we build and deploy images
   push:

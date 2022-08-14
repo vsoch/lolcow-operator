@@ -12,31 +12,8 @@ for a controller. This means that:
 
  - I have a recent version of Go installed (1.18.1)
  - I also have minikube installed
-
-## Building Operator Container
-
-**note** you shouldn't need to do this as it will pull from GitHub packages, but if you want to locally test, this
-is how you do it!
-
-### 1. Build the Container
-
-```bash
-$ docker build -f docker/Dockerfile -t ghcr.io/vsoch/lolcow-operator .
-```
-
-And then you can run it without a statement (and we will use the fortune command to get one) or with a custom statement.
-
-```bash
-$ docker run -it ghcr.io/vsoch/lolcow-operator  "Oh my gosh, I am a cow in a container!"
-$ docker run -it ghcr.io/vsoch/lolcow-operator  
-```
-
-![img/lolcow-example.png](img/lolcow-example.png)
-
-This will be the container we deploy to our operator, with entrypoint modified with our greeting.
- 
-**todo** vsoch is adding this now as an automated build.
- 
+ - my lolcow operator container is prebuilt at [ghcr.io/vsoch/lolcow-operator](https://github.com/vsoch/lolcow-operator/pkgs/container/lolcow-operator)
+  
 ## Making the operator
 
 ### 1. Installation
@@ -198,3 +175,51 @@ lolcow.my.domain/lolcow-sample configured
 ```
 
 I'd like to better understand what's going on under the hood here, but for now I'm happy to have something that sort of works!
+
+## Building Operator Container
+
+**note** you shouldn't need to do this as it will pull from GitHub packages, but if you want to locally test, this
+is how you do it!
+
+### 1. Build the Container
+
+```bash
+$ docker build -f docker/Dockerfile -t ghcr.io/vsoch/lolcow-operator .
+```
+
+And then you can run it without a statement (and we will use the fortune command to get one) or with a custom statement.
+
+```bash
+$ docker run -p 8080:8080 -it ghcr.io/vsoch/lolcow-operator  "Oh my gosh, I am a cow in a container!"
+$ docker run -p 8080:8080 -it ghcr.io/vsoch/lolcow-operator  
+```
+
+![img/lolcow-example.png](img/lolcow-example.png)
+
+This will be the container we deploy to our operator, with entrypoint modified with our greeting.
+ 
+After the greeting you'll see that a web server is started, and you can open up to [http://localhost:8080](http://localhost:8080) to see it.
+
+```bash
+$ docker run -it -p 8080:8080 ghcr.io/vsoch/lolcow-operator
+ ____________________________________
+< Be cautious in your daily affairs. >
+ ------------------------------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+ * Serving Flask app 'app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://172.17.0.2:8080
+Press CTRL+C to quit
+```
+
+And then when you open to [http://localhost:8080](http://localhost:8080) you will see a *much improved* lol cat... has turned
+into Nyan Cat!
+
+![img/nyan-cat.png](img/nyan-cat.png)

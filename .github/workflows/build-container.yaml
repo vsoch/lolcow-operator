@@ -20,7 +20,7 @@ jobs:
       matrix:
 
         # Dockerfiles to build, a matrix supports future expanded builds
-        container: [["docker/Dockerfile", "ghcr.io/vsoch/lolcow-operator:latest"]]
+        container: [["docker/Dockerfile", "ghcr.io/vsoch/lolcow-operator"]]
 
     runs-on: ubuntu-latest
     name: Build

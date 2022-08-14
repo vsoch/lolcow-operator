@@ -21,8 +21,7 @@ is how you do it!
 ### 1. Build the Container
 
 ```bash
-$ cd docker
-$ docker build -t ghcr.io/vsoch/lolcow-operator .
+$ docker build -f docker/Dockerfile -t ghcr.io/vsoch/lolcow-operator .
 ```
 
 And then you can run it without a statement (and we will use the fortune command to get one) or with a custom statement.

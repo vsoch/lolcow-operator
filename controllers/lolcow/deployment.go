@@ -68,9 +68,23 @@ func (r *LolcowReconciler) ensureDeployment(request reconcile.Request, instance 
 	return nil, nil
 }
 
+func (r *LolcowReconciler) NewContainer(greeting string) corev1.PodSpec {
+	return corev1.PodSpec{
+		Containers: []corev1.Container{{
+			Image:           "ghcr.io/vsoch/lolcow-operator:latest",
+			ImagePullPolicy: corev1.PullAlways,
+			Name:            "lolcow-pod",
+			Args:            []string{greeting},
+			Ports: []corev1.ContainerPort{{
+				ContainerPort: 8080,
+				Name:          "lolcow",
+			}},
+		}},
+	}
+}
+
 // backendDeployment is a code for Creating Deployment
 func (r *LolcowReconciler) backendDeployment(v *api.Lolcow) *appsv1.Deployment {
-
 	labels := labels(v, "backend")
 	size := int32(1)
 	dep := &appsv1.Deployment{
@@ -87,17 +101,7 @@ func (r *LolcowReconciler) backendDeployment(v *api.Lolcow) *appsv1.Deployment {
 				ObjectMeta: metav1.ObjectMeta{
 					Labels: labels,
 				},
-				Spec: corev1.PodSpec{
-					Containers: []corev1.Container{{
-						Image:           "ghcr.io/vsoch/lolcow-operator:latest",
-						ImagePullPolicy: corev1.PullAlways,
-						Name:            "lolcow-pod",
-						Ports: []corev1.ContainerPort{{
-							ContainerPort: 8080,
-							Name:          "lolcow",
-						}},
-					}},
-				},
+				Spec: r.NewContainer(r.Greeter.Greeting),
 			},
 		},
 	}

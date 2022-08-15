@@ -194,8 +194,6 @@ $ docker run -p 8080:8080 -it ghcr.io/vsoch/lolcow-operator  "Oh my gosh, I am a
 $ docker run -p 8080:8080 -it ghcr.io/vsoch/lolcow-operator  
 ```
 
-![img/lolcow-example.png](img/lolcow-example.png)
-
 This will be the container we deploy to our operator, with entrypoint modified with our greeting.
  
 After the greeting you'll see that a web server is started, and you can open up to [http://localhost:8080](http://localhost:8080) to see it.
@@ -223,3 +221,25 @@ And then when you open to [http://localhost:8080](http://localhost:8080) you wil
 into Nyan Cat!
 
 ![img/nyan-cat.png](img/nyan-cat.png)
+
+
+## Troubleshooting
+
+If you see:
+
+```bash
+1.6605195805812113e+09	ERROR	controller-runtime.source	if kind is a CRD, it should be installed before calling Start	{"kind": "Lolcow.my.domain", "error": "no matches for kind \"Lolcow\" in version \"my.domain/v1alpha1\""}
+```
+
+You need to remove the previous kustomize and install the CRD again:
+
+```bash
+$ rm bin/kustomize
+$ make install
+```
+
+If you get an error that the port is already allocated, I think we can eventually handle this, but for now I'm deleting the service:
+
+```bash
+$ kubectl delete svc backend-service
+```

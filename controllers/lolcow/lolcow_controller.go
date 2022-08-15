@@ -76,20 +76,11 @@ func (r *LolcowReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctr
 	log := log.FromContext(ctx).WithValues("Lolcow", req.NamespacedName)
 
 	// Do we have a current lolcow instance deployed?
+
 	if err := r.Client.Get(ctx, req.NamespacedName, &instance); err != nil {
 
-		// Check if this Deployment already exists
-		found := &appsv1.Deployment{}
-		err := r.Client.Get(ctx, types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}, found)
-		var result *ctrl.Result
-		result, err = r.ensureDeployment(req, &instance, r.backendDeployment(&instance))
-		if result != nil {
-			log.Error(err, "Deployment Not ready")
-			return *result, err
-		}
-
 		// Check if this Service already exists
-		result, err = r.ensureService(req, &instance, r.backendService(&instance))
+		result, err := r.ensureService(req, &instance, r.backendService(&instance))
 		if result != nil {
 			log.Error(err, "Service Not ready")
 			return *result, err
@@ -100,6 +91,23 @@ func (r *LolcowReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctr
 		// and the error otherwise (so we DO want to re-queue)
 		// https://github.com/kubernetes-sigs/controller-runtime/blob/master/pkg/client/interfaces.go#L140
 		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
+
+	// Check if this Deployment already exists (is found)
+	var deployment appsv1.Deployment
+	err := r.Client.Get(ctx, types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}, &deployment)
+	var result *ctrl.Result
+	result, err = r.ensureDeployment(req, &instance, r.backendDeployment(&instance))
+	if result != nil {
+		log.Error(err, "Deployment Not ready")
+		return *result, err
+	}
+
+	// Check if this Service already exists
+	result, err = r.ensureService(req, &instance, r.backendService(&instance))
+	if result != nil {
+		log.Error(err, "Service Not ready")
+		return *result, err
 	}
 
 	// If we get here, we have an lolcow object!
@@ -113,6 +121,16 @@ func (r *LolcowReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctr
 		err := r.Client.Status().Update(ctx, &instance)
 		if err != nil {
 			log.Error(err, "Error updating instance.")
+		}
+
+		// Update the deployment cmd provided
+		updatedDeployment := deployment.DeepCopy()
+		updatedDeployment.Spec.Template.Spec = r.NewContainer(instance.Spec.Greeting)
+
+		// Patch the deploymemt
+		if err := r.Client.Patch(ctx, updatedDeployment, client.StrategicMergeFrom(&deployment)); err != nil {
+			log.Error(err, "Unable to patch Deployment")
+			return ctrl.Result{}, err
 		}
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}

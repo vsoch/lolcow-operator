@@ -20,66 +20,60 @@ import (
 	"context"
 	api "vsoch/lolcow-operator/api/lolcow/v1alpha1"
 
-	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/apimachinery/pkg/util/intstr"
-	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
+	logctrl "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 )
 
-// ensureService ensures Service is Running in a namespace.
-func (r *LolcowReconciler) ensureService(request reconcile.Request, instance *api.Lolcow, service *corev1.Service) (*reconcile.Result, error) {
+// EnsureService ensures the service is running
+func (r *LolcowReconciler) EnsureService(ctx context.Context, request reconcile.Request, instance *api.Lolcow, existing *corev1.Service) error {
 
-	// See if service already exists and create if it doesn't
-	found := &appsv1.Deployment{}
-	err := r.Client.Get(context.TODO(), types.NamespacedName{
-		Name:      service.Name,
-		Namespace: instance.Namespace,
-	}, found)
-	if err != nil && errors.IsNotFound(err) {
-
-		// Create the service
-		err = r.Client.Create(context.TODO(), service)
-
-		if err != nil {
-			// Service creation failed
-			return &reconcile.Result{}, err
-		} else {
-			// Service creation was successful
-			return nil, nil
+	log := logctrl.FromContext(ctx).WithValues("LolcowEnsureService", request.NamespacedName)
+	err := r.Client.Get(ctx, types.NamespacedName{Name: request.Name, Namespace: request.Namespace}, existing)
+	if err != nil {
+		if errors.IsNotFound(err) {
+			log.Info("Nothing to do, no service found.")
+			return nil
 		}
-	} else if err != nil {
-		// Error that isn't due to the service not existing
-		return &reconcile.Result{}, err
+		log.Error(err, "❌ Failed to get Service")
+		return err
 	}
-
-	return nil, nil
+	log.Info("☠️ Service exists: delete it. ☠️")
+	r.Client.Delete(ctx, existing)
+	return nil
 }
 
-// backendService is a code for creating a Service
-func (r *LolcowReconciler) backendService(v *api.Lolcow) *corev1.Service {
-	labels := labels(v, "backend")
+// createService creates a backend service
+func (r *LolcowReconciler) createService(instance *api.Lolcow) *corev1.Service {
 
+	labels := labels(instance, "backend")
+
+	// We shouldn't need this, as the port comes from the manifest
+	if instance.Spec.Port == 0 {
+		instance.Spec.Port = 30685
+	}
 	service := &corev1.Service{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      "backend-service",
-			Namespace: v.Namespace,
+			Namespace: instance.Namespace,
 		},
 		Spec: corev1.ServiceSpec{
 			Selector: labels,
-			Ports: []corev1.ServicePort{{
-				Protocol:   corev1.ProtocolTCP,
-				Port:       80,
-				TargetPort: intstr.FromInt(8080),
-				NodePort:   30685,
-			}},
-			Type: corev1.ServiceTypeNodePort,
+			Ports: []corev1.ServicePort{
+				{
+					Protocol:   corev1.ProtocolTCP,
+					Port:       80,
+					TargetPort: intstr.FromInt(8080),
+					NodePort:   instance.Spec.Port,
+				},
+			},
+			Type: corev1.ServiceTypeLoadBalancer,
 		},
 	}
 
-	controllerutil.SetControllerReference(v, service, r.Scheme)
 	return service
 }

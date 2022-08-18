@@ -126,13 +126,13 @@ $ make manifests
 
 And install?
 
-```
+```bash
 $ make install
 ```
 
 ### 6. Deploy
 
-At this point, edit the config yamls [here](config/samples/_v1alpha1_lolcow.yaml). We need to add a greeting, e.g,
+At this point, edit the config yamls [here](config/samples/_v1alpha1_lolcow.yaml). We need to add a greeting, and port:
 
 
 ```yaml
@@ -142,8 +142,10 @@ metadata:
   name: lolcow-sample
 spec:
   greeting: HELLO
+  port: 30685
 ```
 
+**note** it doesn't seem to be getting my port (set to zero) likely a bug?
 And then apply (kustomize is in the bin).
 
 ```bash
@@ -173,6 +175,12 @@ And then when it's running (in a separate terminal) change the greeting and do:
 $ bin/kustomize build config/samples | kubectl apply -f -
 lolcow.my.domain/lolcow-sample configured
 ```
+
+### Current Bugs
+
+1. The starting config port doesn't seem to take - I think maybe we need to set it
+2. When I apply the config above, it tells me the port is already allocated, so maybe we need to delete/re-create the service?
+3. The message (greeting) should be passed to the container and appear in the UI (it does not).
 
 I'd like to better understand what's going on under the hood here, but for now I'm happy to have something that sort of works!
 
@@ -243,3 +251,25 @@ If you get an error that the port is already allocated, I think we can eventuall
 ```bash
 $ kubectl delete svc backend-service
 ```
+
+## Wisdom
+
+**from the kubebuilder slack**
+
+Some learned knowledge:
+- Reconciling should only take into account the spec of your object, and the real world.  Don't use status to hold knowledge for future reconcile loops.  Use a workspace object instead.
+- Status should only hold observations of the reconcile loop.  Conditions, perhaps a "Phase", IDs of stuff you've found, etc.
+- Use k8s ownership model to help with cleaning up things that should automatically be reclaimed when your object is deleted.
+- Use finalizers to do manual clean-up-tasks
+- Send events, but be very limited in how often you send events.  We've opted now to send events, essentially only when a Condition is modified (e.g. a Condition changes state or reason).
+- Try not to do too many things in a single reconcile.  One thing is fine.  e.g. see one thing out of order?  Fix that and ask to be reconciled.  The next time you'll see that it's in order and you can check the next thing.  The resulting code is very robust and can handle almost any failure you throw at it.
+- Add "kubebuilder:printcolums" markers to help kubectl-users get a nice summary when they do "kubectl get yourthing".
+- Accept and embrace that you will be reconciling an out-of-date object from time to time.  It shouldn't really matter.  If it does, you might want to change things around so that it doesn't matter.  Inconsistency is a fact of k8s life.
+- Place extra care in taking errors and elevating them to useful conditions, and/or events.  These are the most visible part of an operator, and the go-to-place for humans when trying to figure out why your code doesn't work.  If you've taken the time to extract the error text from the underlying system into an Event, your users will be able to fix the problem much quicker.
+
+### What is a workspace?
+
+A workspace object is when you need to record some piece of knowledge about a thing you're doing, so that later you can use that when reconciling this object. MyObject "foo" is reconciled; so to record the thing you need to remember, create a MyObjectWorkspace — Owned by the MyObject, and with the same name + namespace.  MyObjectWorkspace doesn't need a reconciler; it's simply a tool for you to remember the thing. Next time you reconcile a MyObject, also read your MyObjectWorkspace so you can remember "what happened last time". E.g. I've made a controller to create an EC2 instance, and we needed to be completely sure that we didn't make the "launch instance" API call twice.  EC2 has a "post once only" technique whereby you specify a nonce to avoid duplicate API calls.  You would write the nonce to the workspace use the nonce to call the EC2 API write any status info of what you observed to the status. Rremove the nonce when you know that you've stored the results (e.g. instance IDs or whatever) When you reconcile, if the nonce is set, you can re-use it because it means that the EC2 call failed somehow.  EC2 uses the nonce the second time to recognise that "heh, this is the same request as before ..." Stuff like this nonce shouldn't go in your status. Put simply, the status should really never be used as input for your reconcile.
+
+
+Know that the scaffolded k8sClient includes a cache that automatically updates based on watches, and may give you out-of-date data (but this is fine because if it is out-of-date, there should be a reconcile in the queue already). Also know that there is a way to request objets bypassing a cache (look for APIReader).  This gives a read-only, but direct access to the API.  Useful for e.g. those workspace objects.

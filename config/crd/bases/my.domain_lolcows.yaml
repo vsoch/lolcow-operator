@@ -33,15 +33,24 @@ spec:
           metadata:
             type: object
           spec:
-            description: LolcowSpec defines the desired state of Lolcow
+            description: "Spec\tapps.DeploymentSpec `json:\"spec,omitempty\"`"
             properties:
               greeting:
                 description: Foo is an example field of Lolcow. Edit lolcow_types.go
                   to remove/update
                 type: string
+              port:
+                description: Port for lolcow
+                format: int32
+                type: integer
+            required:
+            - port
             type: object
           status:
             description: LolcowStatus defines the observed state of Lolcow
+            properties:
+              deployed_service:
+                type: boolean
             type: object
         type: object
     served: true

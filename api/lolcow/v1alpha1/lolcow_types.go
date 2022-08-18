@@ -17,6 +17,7 @@ limitations under the License.
 package v1alpha1
 
 import (
+	//	apps "k8s.io/api/apps/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -25,8 +26,8 @@ import (
 
 // LolcowSpec defines the desired state of Lolcow
 type LolcowSpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
+	// Port for lolcow
+	Port int32 `json:"port"`
 
 	// Foo is an example field of Lolcow. Edit lolcow_types.go to remove/update
 	Greeting string `json:"greeting,omitempty"`
@@ -34,6 +35,8 @@ type LolcowSpec struct {
 
 // LolcowStatus defines the observed state of Lolcow
 type LolcowStatus struct {
+	DeployedService bool `json:"deployed_service,omitempty"`
+
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 }
@@ -46,6 +49,7 @@ type Lolcow struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
+	//	Spec	apps.DeploymentSpec `json:"spec,omitempty"`
 	Spec   LolcowSpec   `json:"spec,omitempty"`
 	Status LolcowStatus `json:"status,omitempty"`
 }

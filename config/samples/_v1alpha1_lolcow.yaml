@@ -3,4 +3,5 @@ kind: Lolcow
 metadata:
   name: lolcow-sample
 spec:
-  greeting: Hello, this is a better message from the lolcow.
+  port: 30685  
+  greeting: Hello, this is a better message from the lolcow!

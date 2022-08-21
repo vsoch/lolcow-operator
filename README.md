@@ -14,7 +14,162 @@ for a controller. This means that:
  - I also have minikube installed
  - my lolcow operator container is prebuilt at [ghcr.io/vsoch/lolcow-operator](https://github.com/vsoch/lolcow-operator/pkgs/container/lolcow-operator)
   
+The sections below will describe:
+
+ - [Using the Operator](#using-the-operator): as it is provided here
+ - [Making the Operator](#making-the-operator): steps that I went through (and what I learned)
+ - [Building the Lolcat Container](#building-operator-container): yes, I made this little custom UI for the example, if you want to play with it separately!
+ - [Wisdom](#wisdom): I picked up from the kubebuidler slack - shout out to mogsie for being so helpful!
+
+
+## Using the Operator
+
+If you aren't starting from scratch, then you can use the code here to see how things work!
+
+### 1. Start Minikube
+
+First, start minikube.
+
+```bash
+$ minikube start
+```
+
+If you haven't ever installed it, you can see [install instructions here](https://minikube.sigs.k8s.io/docs/start/).
+
+### 2. Build
+
+And then officially build.
+
+```bash
+$ make
+```
+
+To make your manifests:
+
+```bash
+$ make manifests
+```
+
+And install. Note that this places an executable [bin/kustomize](bin/kustomize) that you'll need to delete first if you make install again.
+
+```bash
+$ make install
+```
+
+### 3. Deploy
+
+Note that you will be using the config yamls [here](config/samples/_v1alpha1_lolcow.yaml) to start, which include a greeting and port.
+We will look at these later for demonstrating how the operator watches for changes. Apply your configs (kustomize is in the bin).
+
+```bash
+$ bin/kustomize build config/samples | kubectl apply -f -
+lolcow.my.domain/lolcow-pod created
+```
+
+And finally, run it.
+
+```bash
+$ make run
+```
+
+And you should be able to open the web-ui:
+
+```bash
+$ minikube service lolcow-pod
+```
+
+Note that if you get a 404 page, do `kubectl get svc` and wait until the service goes from "pending" to "ready." You should 
+see the initial message from the lolcow:
+
+![img/hello-lolcow.png](img/hello-lolcow.png)
+
+If you were to Control+C and restart the controller, you'd see the greeting hasn't changed:
+
+```bash
+1.6611115156486864e+09	INFO	👋️ No Change to Greeting! 👋️: 	{"controller": "lolcow", "controllerGroup": "my.domain", "controllerKind": "Lolcow", "lolcow": {"name":"lolcow-pod","namespace":"default"}, "namespace": "default", "name": "lolcow-pod", "reconcileID": "73ace2ec-c882-45d2-bdd9-860dd5a65f22", "Lolcow": "default/lolcow-pod", "Hello, this is a message from the lolcow!": "Hello, this is a message from the lolcow!"}
+```
+
+### 4. Change the Greeting 
+
+Now let's try changing the greeting. This will test our controllers ability to watch the config and update the deployment accordingly. At this point, edit the config yamls [here](config/samples/_v1alpha1_lolcow.yaml). Change just the greeting for now:
+
+```yaml
+apiVersion: my.domain/v1alpha1
+kind: Lolcow
+metadata:
+  name: lolcow-pod
+spec:
+  port: 30685
+```
+```diff
+-  greeting: Hello, this is a message from the lolcow!
++ greeting: What, you've never seen a poptart cat before?
+```
+
+You can make this change while it's running (in a separate terminal) and then change the greeting in the original config and do:
+
+```bash
+$ bin/kustomize build config/samples | kubectl apply -f -
+lolcow.my.domain/lolcow-pod configured
+```
+
+The change might be quick, but if you scroll up you should see:
+
+```
+1.6611116913288918e+09	INFO	👋️ New Greeting! 👋️: 	{"controller": "lolcow", "controllerGroup": "my.domain", "controllerKind": "Lolcow", "lolcow": {"name":"lolcow-pod","namespace":"default"}, "namespace": "default", "name": "lolcow-pod", "reconcileID": "a3ee80ae-7cd3-4f90-8dac-81c2cfb1708c", "Lolcow": "default/lolcow-pod", "What, you've never seen a poptart cat before?": "Hello, this is a message from the lolcow!"}
+```
+
+and the interface should change too!
+
+![img/poptart-cat.png](img/poptart-cat.png)
+   
+### 5. Change the Port
+
+Since we haven't changed the port, in the logs you should see:
+
+```bash
+1.6611135948097324e+09	INFO	🔁 No Change to Port! 🔁:
+```
+
+So now let's try changing the port, maybe to one number higher:
+
+```yaml
+apiVersion: my.domain/v1alpha1
+kind: Lolcow
+metadata:
+  name: lolcow-pod
+spec:
+```
+```diff
+-  port: 30685
++  port: 30686
+```
+
+And then apply the config. Refreshing the current browser should 404, and you should be able to tweak the port number in your browser and see the user interface again!
+Yay, it works!
+
+### 7. Cleanup
+
+When cleaning up, you can control+c to kill the operator from running, and then:
+
+```bash
+$ kubectl delete pod --all
+$ kubectl delete svc --all
+$ minikube stop
+```
+
+And that's it! You can also delete your minikube cluster if you like.
+
+### 7. Caveats
+
+This is my first time doing any kind of development for Kubernetes, and this is a very basic intro
+that doesn't necessarily reflect best practices. When I'm newly learning something, my main goal
+is to get it to work (period!) and then to slowly learn better practices over time (and use them
+as a standard). I hope this has been useful to you!
+
 ## Making the operator
+
+This section will walk through some of the steps that @vsoch took to create the controller using the operator-sdk, and challenges she faced.
 
 ### 1. Installation
 
@@ -67,15 +222,17 @@ $ go mod init vsoch/lolcow-operator
 $ operator-sdk init
 ```
 
+Note that you don't need to do this, obviously, if you are using the existing operator here!
+
 ### 4. Create Controller
 
-Now let's create a controller, and call it Lolcow
+Now let's create a controller, and call it Lolcow (again, no need to do this if you are using the one here).
 
 ```bash
 $ operator-sdk create api --version=v1alpha1 --kind=Lolcow
 ```
 
-Make sure to install all dependencies (I think this might not be necessary - I saw it happen when I ran the previos command).
+Make sure to install all dependencies (I think this might not be necessary - I saw it happen when I ran the previous command).
 
 ```bash
 $ go mod tidy
@@ -113,76 +270,52 @@ When you finish developing (or as you develop!) you can do:
 $ go build main.go
 ```
 
-And then officially build.
-```bash
-$ make
+And then see the instructions above for [using the operator](#using-the-operator).
+
+
+### 6. Bugs
+
+#### Service / Deployment Detection
+
+For the longest time, the original service and deployment would start (because they were not found) but they would *continue* to be not found
+and sort of spiral into a chain of error messages. This took me many evenings to figure out, but it comes down to these (sort of hidden) lines
+at the top of the controllers file:
+
+```
+//+kubebuilder:rbac:groups=my.domain,resources=lolcows,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=my.domain,resources=lolcows/status,verbs=get;update;patch
+//+kubebuilder:rbac:groups=my.domain,resources=lolcows/finalizers,verbs=update
+//+kubebuilder:rbac:groups=my.domain,resources=deployments,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=my.domain,resources=pods,verbs=get;list;watch;create;
+//+kubebuilder:rbac:groups=my.domain,resources=services,verbs=get;list;watch;create;update;patch;delete
 ```
 
-To make your manifests:
+The template only had the first three (for lolcows) and I needed to add the last three, giving my contoller permission (RBAC refers
+to a set of rules that represent a set of permissions) to interact with services and deployments. I think what was happening
+before is that my controller couldn't see them, period, so of course the Get always failed. I found [this page](https://cluster-api.sigs.k8s.io/developer/providers/implementers-guide/controllers_and_reconciliation.html) and [this page](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#role-and-clusterrole) useful for learning about this.
+Another important note (that I didn't do here) is that you can namespace these, which I suspect is best practice but I didn't do for this little demo. The other bit that
+seemed important was to say that my controller owned services and deployments:
 
-```bash
-$ make manifests
+```go
+func (r *LolcowReconciler) SetupWithManager(mgr ctrl.Manager) error {
+	return ctrl.NewControllerManagedBy(mgr).
+		For(&api.Lolcow{}).
+		Owns(&appsv1.Deployment{}).
+		Owns(&corev1.Service{}).
+		// Defaults to 1, putting here so we know it exists!
+		WithOptions(controller.Options{MaxConcurrentReconciles: 1}).
+		Complete(r)
+}
 ```
+But I'm not entirely sure if that was necessary given the RBAC - something to test for sure.
 
-And install?
+#### Pod Names
 
-```bash
-$ make install
-```
-
-### 6. Deploy
-
-At this point, edit the config yamls [here](config/samples/_v1alpha1_lolcow.yaml). We need to add a greeting, and port:
-
-
-```yaml
-apiVersion: my.domain/v1alpha1
-kind: Lolcow
-metadata:
-  name: lolcow-sample
-spec:
-  greeting: HELLO
-  port: 30685
-```
-
-**note** it doesn't seem to be getting my port (set to zero) likely a bug?
-And then apply (kustomize is in the bin).
-
-```bash
-$ bin/kustomize build config/samples | kubectl apply -f -
-lolcow.my.domain/lolcow-sample created
-```
-
-And finally, run it.
-
-```bash
-$ make run
-```
-
-And you should be able to open the web-ui:
-
-```bash
-$ minikube service backend-service
-```
-
-This isn't perfect yet, but it's a start!
-
-![img/hello-kubernetes.png](img/hello-kubernetes.png)
-
-And then when it's running (in a separate terminal) change the greeting and do:
-
-```bash
-$ bin/kustomize build config/samples | kubectl apply -f -
-lolcow.my.domain/lolcow-sample configured
-```
-
-### Current Bugs
-
-1. The starting config port doesn't seem to take - I think maybe we need to set it
-2. When I apply the config above, it tells me the port is already allocated, so maybe we need to delete/re-create the service?
-3. The message (greeting) should be passed to the container and appear in the UI (it does not).
-
-I'd like to better understand what's going on under the hood here, but for now I'm happy to have something that sort of works!
+For some reason, at one point I switched my name from 'lolcow-sample' to 'lolcow-pod', and although I thought I cleaned everything up,
+whenever I'd create the cluster again it would show me *two* pods made, one lolcow-pod and one lolcow-sample. I had to try resetting and
+"starting fresh" multiple times (e.g., deleting stuff in bin and reinstalling everything) until `kubectl get pod` didn't show the older
+and new name. If you run into errors about not finding a service, it could be that somewhere the older name is still being created or referenced,
+so it's a good sanity check to do.
 
 ## Building Operator Container
 
@@ -230,8 +363,17 @@ into Nyan Cat!
 
 ![img/nyan-cat.png](img/nyan-cat.png)
 
+🎨️ Thank you 🎨️ to [eusonic](https://codepen.io/eusonic/pen/nrjqKn) for the css that drives this UI! I was able to take it
+and modify it into a containerized Flask application (with added text that can dynamically change).
 
 ## Troubleshooting
+
+If you need to clean things up (ensuring you only have this one pod and service running first) I've found it easier to do:
+
+```bash
+$ kubectl delete pod --all
+$ kubectl delete svc --all
+```
 
 If you see:
 
@@ -246,17 +388,12 @@ $ rm bin/kustomize
 $ make install
 ```
 
-If you get an error that the port is already allocated, I think we can eventually handle this, but for now I'm deleting the service:
-
-```bash
-$ kubectl delete svc backend-service
-```
-
 ## Wisdom
 
 **from the kubebuilder slack**
 
-Some learned knowledge:
+### Learned Knowledge
+
 - Reconciling should only take into account the spec of your object, and the real world.  Don't use status to hold knowledge for future reconcile loops.  Use a workspace object instead.
 - Status should only hold observations of the reconcile loop.  Conditions, perhaps a "Phase", IDs of stuff you've found, etc.
 - Use k8s ownership model to help with cleaning up things that should automatically be reclaimed when your object is deleted.
@@ -270,6 +407,5 @@ Some learned knowledge:
 ### What is a workspace?
 
 A workspace object is when you need to record some piece of knowledge about a thing you're doing, so that later you can use that when reconciling this object. MyObject "foo" is reconciled; so to record the thing you need to remember, create a MyObjectWorkspace — Owned by the MyObject, and with the same name + namespace.  MyObjectWorkspace doesn't need a reconciler; it's simply a tool for you to remember the thing. Next time you reconcile a MyObject, also read your MyObjectWorkspace so you can remember "what happened last time". E.g. I've made a controller to create an EC2 instance, and we needed to be completely sure that we didn't make the "launch instance" API call twice.  EC2 has a "post once only" technique whereby you specify a nonce to avoid duplicate API calls.  You would write the nonce to the workspace use the nonce to call the EC2 API write any status info of what you observed to the status. Rremove the nonce when you know that you've stored the results (e.g. instance IDs or whatever) When you reconcile, if the nonce is set, you can re-use it because it means that the EC2 call failed somehow.  EC2 uses the nonce the second time to recognise that "heh, this is the same request as before ..." Stuff like this nonce shouldn't go in your status. Put simply, the status should really never be used as input for your reconcile.
-
 
 Know that the scaffolded k8sClient includes a cache that automatically updates based on watches, and may give you out-of-date data (but this is fine because if it is out-of-date, there should be a reconcile in the queue already). Also know that there is a way to request objets bypassing a cache (look for APIReader).  This gives a read-only, but direct access to the API.  Useful for e.g. those workspace objects.

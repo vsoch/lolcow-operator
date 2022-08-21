@@ -232,7 +232,7 @@ Now let's create a controller, and call it Lolcow (again, no need to do this if 
 $ operator-sdk create api --version=v1alpha1 --kind=Lolcow
 ```
 
-Make sure to install all dependencies (I think this might not be necessary - I saw it happen when I ran the previos command).
+Make sure to install all dependencies (I think this might not be necessary - I saw it happen when I ran the previous command).
 
 ```bash
 $ go mod tidy

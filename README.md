@@ -363,6 +363,8 @@ into Nyan Cat!
 
 ![img/nyan-cat.png](img/nyan-cat.png)
 
+🎨️ Thank you 🎨️ to [eusonic](https://codepen.io/eusonic/pen/nrjqKn) for the css that drives this UI! I was able to take it
+and modify it into a containerized Flask application (with added text that can dynamically change).
 
 ## Troubleshooting
 

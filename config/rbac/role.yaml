@@ -8,6 +8,18 @@ rules:
 - apiGroups:
   - my.domain
   resources:
+  - deployments
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - my.domain
+  resources:
   - lolcows
   verbs:
   - create
@@ -31,3 +43,24 @@ rules:
   - get
   - patch
   - update
+- apiGroups:
+  - my.domain
+  resources:
+  - pods
+  verbs:
+  - create
+  - get
+  - list
+  - watch
+- apiGroups:
+  - my.domain
+  resources:
+  - services
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch

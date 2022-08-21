@@ -17,16 +17,11 @@ limitations under the License.
 package controllers
 
 import (
-	"context"
-
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
-	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/types"
-	logctrl "sigs.k8s.io/controller-runtime/pkg/log"
+	ctrl "sigs.k8s.io/controller-runtime"
 
-	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 	api "vsoch/lolcow-operator/api/lolcow/v1alpha1"
 )
 
@@ -39,32 +34,13 @@ func labels(v *api.Lolcow, tier string) map[string]string {
 	}
 }
 
-// EnsureDeployment ensures Deployment resource presence in given namespace.
-func (r *LolcowReconciler) EnsureDeployment(ctx context.Context, request reconcile.Request, instance *api.Lolcow, existing *appsv1.Deployment) error {
-	log := logctrl.FromContext(ctx).WithValues("LolcowEnsureDeployment", request.NamespacedName)
-	log.Info("Lolcow deployment not found, checking if a deployment must be deleted.")
-	err := r.Client.Get(ctx, types.NamespacedName{Name: request.Name, Namespace: request.Namespace}, existing)
-
-	if err != nil {
-		if errors.IsNotFound(err) {
-			log.Info("Nothing to do, no deployment found.")
-			return nil
-		}
-		log.Error(err, "❌ Failed to get Deployment")
-		return err
-	}
-	log.Info("☠️ Deployment exists: delete it. ☠️")
-	r.Client.Delete(ctx, existing)
-	return nil
-}
-
 // Create a Deployment for the Nginx server.
 func (r *LolcowReconciler) createDeployment(instance *api.Lolcow) *appsv1.Deployment {
 	size := int32(1)
 	labels := labels(instance, "backend")
 	deployment := &appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      "lolcow-pod",
+			Name:      instance.Name,
 			Namespace: instance.Namespace,
 		},
 		Spec: appsv1.DeploymentSpec{
@@ -80,8 +56,8 @@ func (r *LolcowReconciler) createDeployment(instance *api.Lolcow) *appsv1.Deploy
 					Containers: []corev1.Container{{
 						Image:           "ghcr.io/vsoch/lolcow-operator:latest",
 						ImagePullPolicy: corev1.PullAlways,
-						Name:            "lolcow-pod",
-						Args:            []string{"/bin/bash", "/entrypoint.sh", r.Greeter.Greeting},
+						Name:            instance.Name,
+						Command:         []string{"/bin/bash", "/entrypoint.sh", instance.Spec.Greeting},
 						Ports: []corev1.ContainerPort{{
 							ContainerPort: 8080,
 							Name:          "lolcow",
@@ -91,5 +67,7 @@ func (r *LolcowReconciler) createDeployment(instance *api.Lolcow) *appsv1.Deploy
 			},
 		},
 	}
+	// Set Lolcow instance as the owner and controller
+	ctrl.SetControllerReference(instance, deployment, r.Scheme)
 	return deployment
 }

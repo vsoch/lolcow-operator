@@ -1,7 +1,7 @@
 apiVersion: my.domain/v1alpha1
 kind: Lolcow
 metadata:
-  name: lolcow-sample
+  name: lolcow-pod
 spec:
-  port: 30685  
-  greeting: Hello, this is a better message from the lolcow!
+  port: 30685
+  greeting: Hello, this is a message from the lolcow!
